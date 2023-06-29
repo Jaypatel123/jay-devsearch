@@ -37,7 +37,7 @@ class ProjectSerializers(serializers.ModelSerializer):
         model = Project
         fields = '__all__'
 
-    def get_reviews(selfself, obj):
+    def get_reviews(self, obj):
         reviews = obj.review_set.all()
         serializers = ReviewSerializers(reviews, many=True)
         return serializers.data
