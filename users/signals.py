@@ -15,8 +15,8 @@ def createProfile(sender, instance, created, **kwargs):
 
 
 def updateUser(sender, instance, created, **kwargs):
-    profile = instance
-    user = profile.user
+    profile = instance # got the updated data
+    user = profile.user 
     if created == False:
         user.first_name = profile.name
         user.username = profile.username
@@ -29,11 +29,22 @@ def deleteUser(sender, instance, **kwargs):
     user.delete()
 
 # def updateProfile(sender, instance, created, **kwargs):
-#     User = instance
+#     user = instance
+#     profile = Profile.objects.get(username = user.username) 
+#     if created == False:
+#         profile.name = user.first_name
+#         profile.email = user.email        
+#         profile.save()
 
 
 
 post_save.connect(createProfile, sender=User)
+
+
 post_save.connect(updateUser, sender=Profile)
-# post_save.connect(updateProfile, sender=User)
+
+# when User is changed this function will be triggered and 
+# updates profile model accordingly
+# post_save.connect(updateProfile, sender=User) 
+
 post_delete.connect(deleteUser, sender=Profile)
