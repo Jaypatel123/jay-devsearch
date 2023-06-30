@@ -20,12 +20,9 @@ def getProject(request, pk):
 
 
 @api_view(['POST',])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def createProject(request):
-    owner = request.user.profile # I will get current logged in user profile
-    print(f'I will get current logged in user profile {owner}')
-    # (owner = owner) <- profile model has several projects and each profiles has several projects so 
-    #                    this helps us to add new project under the profile model
+    owner = request.user.profile
     project = Project.objects.create(owner=owner)
 
     serializer = ProjectcreateSerializers(project, data=request.data)
@@ -33,3 +30,4 @@ def createProject(request):
         serializer.save()
         return Response(serializer.data)
     return Response(serializer.errors)
+ 
